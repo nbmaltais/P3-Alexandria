@@ -11,17 +11,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import it.jaschke.alexandria.api.Callback;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
+public class MainActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
+    static final String TAG=MainActivity.class.getSimpleName();
 
+    private static final String TAG_ADD_BOOK="ADDBOOK";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -65,14 +71,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
-
+        String tag=null;
         switch (position){
             default:
             case 0:
                 nextFragment = new ListOfBooks();
+                tag="ListOfBooks";
                 break;
             case 1:
                 nextFragment = new AddBook();
+                tag=TAG_ADD_BOOK;
                 break;
             case 2:
                 nextFragment = new About();
@@ -81,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, nextFragment)
+                .replace(R.id.container, nextFragment,tag)
                 .addToBackStack((String) title)
                 .commit();
     }
@@ -92,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+       // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(title);
     }
@@ -168,6 +176,32 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         return (getApplicationContext().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            Log.d(TAG, "Received scan result: " + scanResult.toString());
+            if( scanResult.getFormatName().equals("EAN_13") )
+            {
+                String ean = scanResult.getContents();
+
+
+                Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_ADD_BOOK);
+                if( f != null )
+                {
+                    AddBook ad = (AddBook)f;
+                    ad.addBook(ean);
+                }
+
+            }
+        }
+        else
+        {
+            Log.d(TAG,"Received invalid scan result");
+        }
     }
 
     @Override
