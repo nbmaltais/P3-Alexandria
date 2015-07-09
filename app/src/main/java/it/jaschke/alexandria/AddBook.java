@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.squareup.picasso.Picasso;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
-import it.jaschke.alexandria.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -239,10 +238,11 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         mAuthorsView.setLines(authorsArr.length);
         mAuthorsView.setText(authors.replace(",", "\n"));
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        if(Patterns.WEB_URL.matcher(imgUrl).matches()){
+        /*if(Patterns.WEB_URL.matcher(imgUrl).matches()){
             new DownloadImage(mBookCoverView).execute(imgUrl);
             mBookCoverView.setVisibility(View.VISIBLE);
-        }
+        }*/
+        Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         mCategoriesView.setText(categories);
