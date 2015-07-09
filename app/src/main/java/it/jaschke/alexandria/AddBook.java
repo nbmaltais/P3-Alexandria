@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -270,5 +271,17 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
+    }
+
+    public void onInvalidScanFormat()
+    {
+        // notify the user that the scanned item is not an ISBN bar code
+        Context ctx = getActivity();
+
+        new AlertDialog.Builder(ctx)
+                .setTitle(ctx.getString(R.string.invalid_barcode_dialog_title))
+                .setMessage(ctx.getString(R.string.error_invalid_barcode))
+                .setPositiveButton(android.R.string.ok, null)
+                .create().show();
     }
 }

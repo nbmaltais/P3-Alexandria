@@ -30,4 +30,6 @@
     The original version of this app was built by Sascha Jaschke, and a modified version is given to students in the Udacity Android Nanodegree program. </string>
     <string name="scanner_prompt">Scan ISBN</string>
     <string name="error_no_network">Can\'t add book when their is no network available.</string>
+    <string name="error_invalid_barcode">This bar code does not represent an ISBN number</string>
+    <string name="invalid_barcode_dialog_title">Invalid Barcode</string>
 </resources>

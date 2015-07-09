@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO Use resource qualifier
         IS_TABLET = isTablet();
         if(IS_TABLET){
             setContentView(R.layout.activity_main_tablet);
@@ -142,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
 
     @Override
     public void onItemSelected(String ean) {
+
+        // TODO: book detail should be shown in a new activity. Also, navigating grom book detais
+        // to book list should be done via the action bar and not a custom button
+
         Bundle args = new Bundle();
         args.putString(BookDetail.EAN_KEY, ean);
 
@@ -172,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         getSupportFragmentManager().popBackStack();
     }
 
+    // TODO Remove and use resource qualifiers
     private boolean isTablet() {
         return (getApplicationContext().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
@@ -183,19 +190,19 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
+            Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_ADD_BOOK);
+            if(f==null)
+                return; // The fragment is not here???
+            AddBook ad = (AddBook)f;
             Log.d(TAG, "Received scan result: " + scanResult.toString());
             if( scanResult.getFormatName().equals("EAN_13") )
             {
                 String ean = scanResult.getContents();
-
-
-                Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_ADD_BOOK);
-                if( f != null )
-                {
-                    AddBook ad = (AddBook)f;
-                    ad.addBook(ean);
-                }
-
+                ad.addBook(ean);
+            }
+            else
+            {
+                ad.onInvalidScanFormat();
             }
         }
         else
