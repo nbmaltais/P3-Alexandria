@@ -28,7 +28,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp"
+                    tools:text="A Game of Thrones"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
                     android:layout_marginTop="15dp"
                     android:layout_below="@+id/fullBookTitle"
                     android:layout_alignLeft="@+id/fullBookTitle"
-                    android:layout_alignStart="@+id/fullBookTitle"/>
+                    android:layout_alignStart="@+id/fullBookTitle"
+                    tools:src="@drawable/book_cover"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +53,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_alignTop="@+id/fullBookCover"
                     android:layout_toRightOf="@+id/fullBookCover"
-                    android:layout_toEndOf="@+id/fullBookCover"/>
+                    android:layout_toEndOf="@+id/fullBookCover"
+                    tools:text="subtitle"/>
 
 
                 <TextView
@@ -62,6 +65,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_below="@+id/fullBookCover"
                     android:layout_margin="10dp"
+                    tools:text="The kingdom of the royal Stark family faces its ultimate challenge in the onset of a generation-long winter, the poisonous plots of the rival Lannisters, the emergence of the Neverborn demons, and the arrival of barbarian hordes"
                     />
 
 
@@ -78,7 +82,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/categories"
                         android:layout_weight="1"
-                        android:gravity="left|top"/>
+                        android:gravity="left|top"
+                        tools:text="fiction"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,7 +91,8 @@
                         android:id="@+id/authors"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:gravity="right|top"/>
+                        android:gravity="right|top"
+                        tools:text="George R.R. Martin"/>
                 </LinearLayout>
 
                 <ImageButton

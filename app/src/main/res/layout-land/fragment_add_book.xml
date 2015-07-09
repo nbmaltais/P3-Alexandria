@@ -49,7 +49,8 @@
             android:layout_alignStart="@+id/ean"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            tools:text="A Game of Thrones"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
             android:layout_below="@+id/bookTitle"
             android:layout_alignLeft="@+id/bookTitle"
             android:layout_alignStart="@+id/bookTitle"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            tools:text="subtitle"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -70,6 +72,7 @@
             android:layout_below="@+id/bookSubTitle"
             android:layout_alignLeft="@+id/bookSubTitle"
             android:layout_alignStart="@+id/bookSubTitle"
+            tools:src="@drawable/book_cover"
             />
 
         <TextView
@@ -80,6 +83,7 @@
             android:layout_marginLeft="25dp"
             android:layout_alignTop="@+id/bookCover"
             android:layout_toRightOf="@+id/bookCover"
+            tools:text="George R. R. Martin"
             />
 
         <TextView
@@ -109,6 +113,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/delete_button"
                 android:visibility="invisible"
+                tools:visibility="visible"
                 />
 
             <ImageButton
@@ -122,6 +127,7 @@
                 android:src="@drawable/ic_action_accept"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_gravity="bottom"
+                tools:visibility="visible"
                 />
 
 
