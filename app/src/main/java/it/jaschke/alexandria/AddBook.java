@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
@@ -49,12 +50,27 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private TextView mCategoriesView;
     private ImageView mBookCoverView;
 
+    boolean checkNetworkAndShowMessage()
+    {
+        Context context = getActivity();
+        if(!Utility.isNetworkAvailable(context))
+        {
+            Toast.makeText(context,context.getString(R.string.error_no_network),Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
     public void addBook( String ean )
     {
+        if(!checkNetworkAndShowMessage())
+            return;
+        Context context = getActivity();
         mBookEAN=ean;
         mEanEdit.setText(ean);
         Log.d(LOGTAG,"Adding book with mEanEdit = " + ean);
-        Context context = getActivity();
+
         Intent bookIntent = new Intent(context, BookService.class);
         bookIntent.putExtra(BookService.EAN, ean);
         bookIntent.setAction(BookService.FETCH_BOOK);
@@ -135,6 +151,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             public void onClick(View v)
             {
 
+                if(!checkNetworkAndShowMessage())
+                    return;
                 // Start a scan using our Capture activity
                 Activity activity = getActivity();
                 IntentIntegrator integrator = new IntentIntegrator(activity);
@@ -177,6 +195,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             mEanEdit.setText(savedInstanceState.getString(EAN_CONTENT));
             mEanEdit.setHint("");
         }
+
+        checkNetworkAndShowMessage();
 
         return mRootView;
     }
