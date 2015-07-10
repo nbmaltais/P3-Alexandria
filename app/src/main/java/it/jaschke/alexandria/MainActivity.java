@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence title;
-    public static boolean IS_TABLET = false;
+    //public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
@@ -48,12 +47,13 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         super.onCreate(savedInstanceState);
 
         // TODO Use resource qualifier
-        IS_TABLET = isTablet();
+        /*IS_TABLET = isTablet();
         if(IS_TABLET){
             setContentView(R.layout.activity_main_tablet);
         }else {
             setContentView(R.layout.activity_main);
-        }
+        }*/
+        setContentView(R.layout.activity_main);
 
         messageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     @Override
     public void onItemSelected(String ean) {
 
-        // TODO: book detail should be shown in a new activity. Also, navigating grom book detais
-        // to book list should be done via the action bar and not a custom button
-
+        /* TODO: book detail should be shown in a new activity. Also, navigating from book detais
+         to book list should be done via the action bar and not a custom button
+        */
         Bundle args = new Bundle();
         args.putString(BookDetail.EAN_KEY, ean);
 
@@ -179,11 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
     }
 
     // TODO Remove and use resource qualifiers
-    private boolean isTablet() {
+    /*private boolean isTablet() {
         return (getApplicationContext().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
