@@ -193,7 +193,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
         if(savedInstanceState!=null){
             mEanEdit.setText(savedInstanceState.getString(EAN_CONTENT));
-            mEanEdit.setHint("");
+            //mEanEdit.setHint("");
         }
 
         checkNetworkAndShowMessage();

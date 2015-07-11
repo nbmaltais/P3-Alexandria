@@ -4,31 +4,31 @@
              android:layout_height="match_parent"
              tools:context="it.jaschke.alexandria.AddBook">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal|top"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
 
         <LinearLayout
             android:id="@+id/eancontainer"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/ean"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:hint="@string/input_hint"
                 android:inputType="number"
                 android:maxLength="@integer/ean_size"
                 android:maxLines="1"
                 android:minEms="@integer/ean_width"
-                android:paddingRight="20dp"
                 android:saveEnabled="true"/>
 
             <Button
@@ -43,11 +43,6 @@
             android:id="@+id/bookTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"
-            android:layout_below="@+id/eancontainer"
-            android:layout_marginTop="25dp"
-            android:paddingRight="20dp"
             android:textIsSelectable="true"
             android:textSize="@dimen/head_line"
             android:textStyle="bold"
@@ -57,9 +52,6 @@
             android:id="@+id/bookSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_below="@+id/bookTitle"
-            android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:maxLines="3"
             tools:text="subtitle"
@@ -69,35 +61,28 @@
             android:id="@+id/authors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/eancontainer"
-            android:layout_alignRight="@+id/eancontainer"
-            android:layout_below="@+id/bookSubTitle"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:gravity="end"
             android:textSize="@dimen/small_fontsize"
             tools:text="George R. R. Martin"
             />
 
-        <ImageView
-            android:id="@+id/bookCover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"
-            android:layout_alignTop="@+id/authors"
-            android:contentDescription="@string/book_cover"
-            tools:src="@drawable/book_cover"/>
-
         <TextView
             android:id="@+id/categories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"
-            android:layout_below="@+id/bookCover"
-            android:layout_marginTop="20dp"
             android:textSize="@dimen/small_fontsize"
             tools:text="Fiction"/>
+
+        <ImageView
+            android:id="@+id/bookCover"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/book_cover"
+            tools:src="@drawable/book_cover"/>
+
+
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -134,5 +119,5 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </FrameLayout>

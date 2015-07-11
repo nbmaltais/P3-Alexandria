@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="it.jaschke.alexandria.AddBookActivity">
+
+    <fragment
+        android:id="@+id/add_book_fragment"
+        android:name="it.jaschke.alexandria.AddBook"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_add_book"/>
+
+</RelativeLayout>

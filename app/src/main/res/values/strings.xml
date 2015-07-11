@@ -32,4 +32,8 @@
     <string name="error_no_network">Can\'t add book when their is no network available.</string>
     <string name="error_invalid_barcode">This bar code does not represent an ISBN number</string>
     <string name="invalid_barcode_dialog_title">Invalid Barcode</string>
+    <string name="title_activity_add_book">AddBookActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_book_detail">Book detail</string>
 </resources>

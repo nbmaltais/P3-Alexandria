@@ -11,14 +11,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import it.jaschke.alexandria.api.Callback;
 
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment navigationDrawerFragment;
-
+    private boolean mTwoPane=false;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -54,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
             setContentView(R.layout.activity_main);
         }*/
         setContentView(R.layout.activity_main);
+
+
+        if(findViewById(R.id.right_container) != null){
+            mTwoPane=true;
+        }
 
         messageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
                 tag="ListOfBooks";
                 break;
             case 1:
-                nextFragment = new AddBook();
-                tag=TAG_ADD_BOOK;
-                break;
+                startAddBookActivity();
+                return;
+
             case 2:
                 nextFragment = new About();
                 break;
@@ -94,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
                 .replace(R.id.container, nextFragment,tag)
                 .addToBackStack((String) title)
                 .commit();
+    }
+
+    private void startAddBookActivity()
+    {
+        Intent intent = new Intent(this,AddBookActivity.class);
+        startActivity(intent);
     }
 
     public void setTitle(int titleId) {
@@ -148,20 +155,31 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
         /* TODO: book detail should be shown in a new activity. Also, navigating from book detais
          to book list should be done via the action bar and not a custom button
         */
-        Bundle args = new Bundle();
-        args.putString(BookDetail.EAN_KEY, ean);
 
-        BookDetail fragment = new BookDetail();
-        fragment.setArguments(args);
+        if(mTwoPane)
+        {
+            Bundle args = new Bundle();
+            args.putString(BookDetail.EAN_KEY, ean);
 
-        int id = R.id.container;
-        if(findViewById(R.id.right_container) != null){
-            id = R.id.right_container;
+            BookDetail fragment = new BookDetail();
+            fragment.setArguments(args);
+
+            int id = R.id.container;
+            if (findViewById(R.id.right_container) != null)
+            {
+                id = R.id.right_container;
+            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(id, fragment)
+                    .addToBackStack("Book Detail")
+                    .commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                .addToBackStack("Book Detail")
-                .commit();
+        else
+        {
+            Intent intent = new Intent(this,BookDetailActivity.class);
+            intent.putExtra(BookDetailActivity.EXTRA_EAN,ean);
+            startActivity(intent);
+        }
 
     }
 
@@ -185,31 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerF
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }*/
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
-    {
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
-            Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_ADD_BOOK);
-            if(f==null)
-                return; // The fragment is not here???
-            AddBook ad = (AddBook)f;
-            Log.d(TAG, "Received scan result: " + scanResult.toString());
-            if( scanResult.getFormatName().equals("EAN_13") )
-            {
-                String ean = scanResult.getContents();
-                ad.addBook(ean);
-            }
-            else
-            {
-                ad.onInvalidScanFormat();
-            }
-        }
-        else
-        {
-            Log.d(TAG,"Received invalid scan result");
-        }
-    }
+
 
     @Override
     public void onBackPressed() {
