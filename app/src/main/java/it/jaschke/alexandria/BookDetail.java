@@ -1,5 +1,6 @@
 package it.jaschke.alexandria;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -35,6 +36,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
     private ImageView mBookCoverView;
     private boolean mSetTitle=false;
 
+    public interface Host
+    {
+        void onBookDeleted();
+        void setBookTitle(String title);
+    }
+
+    Host mHost;
+
     public BookDetail(){
     }
 
@@ -44,6 +53,15 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        if( activity instanceof  Host)
+        {
+            mHost = (Host)activity;
+        }
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,11 +80,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
             @Override
             public void onClick(View view)
             {
-                Intent bookIntent = new Intent(getActivity(), BookService.class);
-                bookIntent.putExtra(BookService.EAN, ean);
-                bookIntent.setAction(BookService.DELETE_BOOK);
-                getActivity().startService(bookIntent);
-                getActivity().getSupportFragmentManager().popBackStack();
+                deleteBook();
             }
         });
 
@@ -75,6 +89,16 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         return rootView;
     }
 
+    void deleteBook()
+    {
+        Intent bookIntent = new Intent(getActivity(), BookService.class);
+        bookIntent.putExtra(BookService.EAN, ean);
+        bookIntent.setAction(BookService.DELETE_BOOK);
+        getActivity().startService(bookIntent);
+
+        if(mHost!=null)
+            mHost.onBookDeleted();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -133,8 +157,8 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         ((TextView) rootView.findViewById(R.id.categories)).setText(categories);
 
-        if(mSetTitle)
-            getActivity().setTitle(bookTitle);
+        if(mHost!=null)
+            mHost.setBookTitle(bookTitle);
 
     }
 
@@ -155,11 +179,5 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        /*if(MainActivity.IS_TABLET && rootView.findViewById(R.id.right_container)==null){
-            getActivity().getSupportFragmentManager().popBackStack();
-        }*/
-    }
+
 }

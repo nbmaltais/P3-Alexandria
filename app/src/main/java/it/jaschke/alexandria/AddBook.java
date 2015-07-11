@@ -240,8 +240,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         /*if(Patterns.WEB_URL.matcher(imgUrl).matches()){
             new DownloadImage(mBookCoverView).execute(imgUrl);
-            mBookCoverView.setVisibility(View.VISIBLE);
+
         }*/
+        mBookCoverView.setVisibility(View.VISIBLE);
         Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));

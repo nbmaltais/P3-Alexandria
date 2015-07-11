@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class BookDetailActivity extends AppCompatActivity
+public class BookDetailActivity extends AppCompatActivity implements BookDetail.Host
 {
 
     public static final String EXTRA_EAN = "EXTRA_EAN";
@@ -62,5 +62,17 @@ public class BookDetailActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBookDeleted()
+    {
+        finish();
+    }
+
+    @Override
+    public void setBookTitle(String title)
+    {
+        setTitle(title);
     }
 }
