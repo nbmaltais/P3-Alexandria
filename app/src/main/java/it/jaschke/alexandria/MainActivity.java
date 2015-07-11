@@ -4,12 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,20 +22,14 @@ public class MainActivity extends AppCompatActivity
     static final String TAG=MainActivity.class.getSimpleName();
 
     private static final String TAG_ADD_BOOK="ADDBOOK";
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
 
     private boolean mTwoPane=false;
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence title;
-    //public static boolean IS_TABLET = false;
-    private BroadcastReceiver messageReciever;
+
+    private BroadcastReceiver messageReceiver;
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+    private boolean mStartAddBookActivity=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +43,27 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        messageReciever = new MessageReceiver();
+        messageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,filter);
 
+        if(savedInstanceState==null)
+        {
+            //TODo: this always fire the add book activity a we can't come back...
+            // lauched, check preference
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            String start = sp.getString("pref_startFragment", "0");
+            /*if(!start.equals("0"))
+            {
+                Intent intent = new Intent(this,AddBookActivity.class);
+                TaskStackBuilder.create(this)
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by DetailsActivity itself
+                        .addNextIntentWithParentStack(intent)
+                        .startActivities();
+            }*/
+        }
     }
-
-
-    public void setTitle(int titleId) {
-        title = getString(titleId);
-    }
-
 
 
     @Override
@@ -94,8 +96,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        /*if(mStartAddBookActivity)
+            Navigation.startAddBookActivity(this);*/
+    }
+
+    @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         super.onDestroy();
     }
 
