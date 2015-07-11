@@ -75,14 +75,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         }
 
         rootView = inflater.inflate(R.layout.fragment_full_book, container, false);
-        rootView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener()
+        /*rootView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 deleteBook();
             }
-        });
+        });*/
 
         mBookCoverView = (ImageView) rootView.findViewById(R.id.fullBookCover);
 
@@ -108,6 +108,17 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         updateShareIntent();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if( item.getItemId() == R.id.action_delete)
+        {
+            deleteBook();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

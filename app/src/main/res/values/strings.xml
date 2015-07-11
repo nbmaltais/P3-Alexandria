@@ -38,4 +38,5 @@
     <string name="title_activity_book_detail">Book detail</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="action_about">About this App</string>
+    <string name="action_delete">Delete book</string>
 </resources>
