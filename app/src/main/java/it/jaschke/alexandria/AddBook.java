@@ -41,6 +41,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
     private String mBookEAN;
+    private View mBookDetailView;
     private View mScanButton;
     private View mSaveButton;
     private View mDeleteButton;
@@ -101,6 +102,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         mCategoriesView = (TextView) mRootView.findViewById(R.id.categories);
 
         mBookCoverView = (ImageView) mRootView.findViewById(R.id.bookCover);
+        mBookDetailView = mRootView.findViewById(R.id.book_detail);
+
+        mBookDetailView.setVisibility(View.INVISIBLE);
 
         mEanEdit.addTextChangedListener(new TextWatcher()
         {
@@ -242,14 +246,16 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             new DownloadImage(mBookCoverView).execute(imgUrl);
 
         }*/
-        mBookCoverView.setVisibility(View.VISIBLE);
+
         Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         mCategoriesView.setText(categories);
 
+        /*mBookCoverView.setVisibility(View.VISIBLE);
         mSaveButton.setVisibility(View.VISIBLE);
-        mDeleteButton.setVisibility(View.VISIBLE);
+        mDeleteButton.setVisibility(View.VISIBLE);*/
+        mBookDetailView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -258,13 +264,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     }
 
     private void clearFields(){
-        mBookTitleView.setText("");
+        /*mBookTitleView.setText("");
         mBookSubTitleView.setText("");
         mAuthorsView.setText("");
         mCategoriesView.setText("");
         mBookCoverView.setVisibility(View.INVISIBLE);
         mSaveButton.setVisibility(View.INVISIBLE);
-        mDeleteButton.setVisibility(View.INVISIBLE);
+        mDeleteButton.setVisibility(View.INVISIBLE);*/
+        mBookDetailView.setVisibility(View.INVISIBLE);
         mBookEAN=null;
     }
 
