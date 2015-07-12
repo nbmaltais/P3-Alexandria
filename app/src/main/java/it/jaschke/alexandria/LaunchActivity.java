@@ -25,6 +25,8 @@ public class LaunchActivity extends Activity
             }
         else
             {
+                // Start the add book activity and create a back stack to navigate back to
+                // the parent activity
                 Intent intent = new Intent(this,AddBookActivity.class);
 
 
