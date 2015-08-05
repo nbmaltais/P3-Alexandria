@@ -18,24 +18,27 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetail.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
-        Intent intent = getIntent();
-        if(intent!=null)
+        if(savedInstanceState==null)
         {
-            String ean = intent.getStringExtra(EXTRA_EAN);
-            Bundle args = new Bundle();
-            args.putString(BookDetail.EAN_KEY, ean);
-            args.putBoolean(BookDetail.ARG_SET_TITLE,true);
+            Intent intent = getIntent();
+            if (intent != null)
+            {
+                String ean = intent.getStringExtra(EXTRA_EAN);
+                Bundle args = new Bundle();
+                args.putString(BookDetail.EAN_KEY, ean);
+                args.putBoolean(BookDetail.ARG_SET_TITLE, true);
 
-            BookDetail fragment = new BookDetail();
-            fragment.setArguments(args);
+                BookDetail fragment = new BookDetail();
+                fragment.setArguments(args);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.book_detail_fragment, fragment)
-                    .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.book_detail_fragment, fragment)
+                        .commit();
 
+            }
         }
 
-        // TODO: set activity title to book title
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 
