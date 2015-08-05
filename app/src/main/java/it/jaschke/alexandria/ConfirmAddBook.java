@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,6 +37,7 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
     private ImageView mBookCoverView;
 
     private String mBookEAN;
+    private String mBookTitle;
 
     interface Host
     {
@@ -107,6 +109,7 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
     {
         // Inform host activity that the book was saved
         mHost.onSaveBook(mBookEAN);
+        Toast.makeText(getActivity(),getActivity().getString(R.string.book_added_toast,mBookTitle),Toast.LENGTH_LONG).show();
     }
 
     void deleteBook()
@@ -143,8 +146,8 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
             return;
         }
 
-        String bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        mBookTitleView.setText(bookTitle);
+        mBookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
+        mBookTitleView.setText(mBookTitle);
 
         String bookSubTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
         mBookSubTitleView.setText(bookSubTitle);
