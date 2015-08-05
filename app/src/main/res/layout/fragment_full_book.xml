@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -12,93 +13,106 @@
         android:layout_weight="1"
         android:fillViewport="false">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/cardview_margin"
+            android:layout_marginLeft="@dimen/cardview_margin"
+            android:layout_marginRight="@dimen/cardview_margin"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="16dp"
+            app:cardElevation="4dp">
 
-            <TextView
-                android:id="@+id/fullBookTitle"
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:paddingRight="20dp"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/head_line"
-                android:textStyle="bold"
-                tools:text="A Game of Thrones"/>
-
-            <ImageView
-                android:id="@+id/fullBookCover"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/fullBookTitle"
-                android:layout_alignStart="@+id/fullBookTitle"
-                android:layout_below="@+id/fullBookTitle"
-                android:layout_marginTop="15dp"
-                android:contentDescription="@string/book_cover"
-                tools:src="@drawable/book_cover"/>
-
-            <TextView
-                android:id="@+id/fullBookSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/fullBookCover"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/fullBookCover"
-                android:layout_toRightOf="@+id/fullBookCover"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:textSize="18sp"
-                tools:text="subtitle"/>
-
-
-            <TextView
-                android:id="@+id/fullBookDesc"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fullBookCover"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="10dp"
-                android:ellipsize="end"
-                tools:text="The kingdom of the royal Stark family faces its ultimate challenge in the onset of a generation-long winter, the poisonous plots of the rival Lannisters, the emergence of the Neverborn demons, and the arrival of barbarian hordes"
-                />
-
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fullBookDesc"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_gravity="center_horizontal|top"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/categories"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/fullBookTitle"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left|top"
-                    tools:text="fiction"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
 
-                <TextView
-                    android:id="@+id/authors"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|top"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/head_line"
                     android:textStyle="bold"
-                    tools:text="George R.R. Martin"/>
-            </LinearLayout>
+                    tools:text="A Game of Thrones"/>
+
+                <ImageView
+                    android:id="@+id/fullBookCover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/fullBookTitle"
+                    android:layout_alignStart="@+id/fullBookTitle"
+                    android:layout_below="@+id/fullBookTitle"
+                    android:layout_marginTop="15dp"
+                    android:contentDescription="@string/book_cover"
+                    tools:src="@drawable/book_cover"/>
+
+                <TextView
+                    android:id="@+id/fullBookSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/fullBookCover"
+                    android:layout_marginLeft="@dimen/horizontal_spacing_standard"
+                    android:layout_toEndOf="@+id/fullBookCover"
+                    android:layout_toRightOf="@+id/fullBookCover"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:textSize="18sp"
+                    tools:text="subtitle"/>
 
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/fullBookDesc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/fullBookTitle"
+                    android:layout_alignStart="@+id/fullBookTitle"
+                    android:layout_below="@+id/fullBookCover"
+                    android:layout_marginTop="@dimen/vertical_spacing_standard"
+                    android:ellipsize="end"
+                    tools:text="The kingdom of the royal Stark family faces its ultimate challenge in the onset of a generation-long winter, the poisonous plots of the rival Lannisters, the emergence of the Neverborn demons, and the arrival of barbarian hordes"
+                    />
 
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/fullBookTitle"
+                    android:layout_alignStart="@+id/fullBookTitle"
+                    android:layout_below="@+id/fullBookDesc"
+                    android:layout_marginTop="@dimen/vertical_spacing_standard"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/abc_edit_text_inset_bottom_material"
+                    android:paddingTop="@dimen/abc_edit_text_inset_top_material">
+
+                    <TextView
+                        android:id="@+id/categories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|top"
+                        tools:text="fiction"/>
+
+                    <TextView
+                        android:id="@+id/authors"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right|top"
+                        android:textStyle="bold"
+                        tools:text="George R.R. Martin"/>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
     </ScrollView>
 
     <!-- <LinearLayout

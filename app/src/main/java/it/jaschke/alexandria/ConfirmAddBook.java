@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -41,7 +40,7 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
 
     interface Host
     {
-        void onSaveBook( String ean );
+        void onSaveBook( String title, String ean );
         void onDeleteBook(String ean );
     }
 
@@ -108,8 +107,8 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
     void saveBook()
     {
         // Inform host activity that the book was saved
-        mHost.onSaveBook(mBookEAN);
-        Toast.makeText(getActivity(),getActivity().getString(R.string.book_added_toast,mBookTitle),Toast.LENGTH_LONG).show();
+        mHost.onSaveBook(mBookTitle,mBookEAN);
+
     }
 
     void deleteBook()

@@ -40,6 +40,7 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        // Fixed: Better to use LoaderManager
         /*Cursor cursor = getActivity().getContentResolver().query(
                 AlexandriaContract.BookEntry.CONTENT_URI,
                 null, // leaving "columns" null just returns all the columns.
@@ -89,6 +90,7 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
             }
         });
 
+        // Fixed: Call initLoader instead of loading content directly
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         return rootView;

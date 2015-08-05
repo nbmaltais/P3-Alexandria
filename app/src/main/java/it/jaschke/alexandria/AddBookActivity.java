@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
-public class AddBookActivity extends AppCompatActivity
+public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook.Host
 {
     static final String TAG = AddBookActivity.class.getSimpleName();
     @Override
@@ -71,5 +72,17 @@ public class AddBookActivity extends AppCompatActivity
         {
             Log.d(TAG,"Received invalid scan result");
         }
+    }
+
+    @Override
+    public void onSaveBook(String title, String ean)
+    {
+        Toast.makeText(this, getString(R.string.book_added_toast, title), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteBook(String ean)
+    {
+
     }
 }
