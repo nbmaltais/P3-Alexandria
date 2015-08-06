@@ -13,9 +13,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
-public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook.Host
+public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook.Host, AddBook.Host
 {
     static final String TAG = AddBookActivity.class.getSimpleName();
+    static final String FAGMENTTAG="ConfirmAddBook";
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -78,11 +79,24 @@ public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook
     public void onSaveBook(String title, String ean)
     {
         Toast.makeText(this, getString(R.string.book_added_toast, title), Toast.LENGTH_LONG).show();
+        dismissConfrimAddBookDialog();
+    }
+
+    private void dismissConfrimAddBookDialog()
+    {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(FAGMENTTAG);
     }
 
     @Override
     public void onDeleteBook(String ean)
     {
 
+    }
+
+    @Override
+    public void confirmAddBook(String ean)
+    {
+        ConfirmAddBook confirmAddBook = ConfirmAddBook.newInstance(ean);
+        confirmAddBook.show(getSupportFragmentManager(),FAGMENTTAG);
     }
 }

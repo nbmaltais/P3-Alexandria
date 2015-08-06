@@ -51,6 +51,12 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private TextView mAuthorsView;
     private TextView mCategoriesView;
     private ImageView mBookCoverView;
+    private Host mHost;
+
+    public interface Host
+    {
+        void confirmAddBook(String ean);
+    }
 
     boolean checkNetworkAndShowMessage()
     {
@@ -71,13 +77,16 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         Context context = getActivity();
         mBookEAN=ean;
         mEanEdit.setText(ean);
-        Log.d(LOGTAG,"Adding book with mEanEdit = " + ean);
+        Log.d(LOGTAG, "Adding book with mEanEdit = " + ean);
 
         Intent bookIntent = new Intent(context, BookService.class);
         bookIntent.putExtra(BookService.EAN, ean);
         bookIntent.setAction(BookService.FETCH_BOOK);
         context.startService(bookIntent);
+
         restartLoader();
+
+        //mHost.confirmAddBook(mBookEAN);
     }
 
     public AddBook(){
@@ -90,6 +99,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             outState.putString(EAN_CONTENT, mEanEdit.getText().toString());
         }
     }
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,10 +150,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     return;
                 }
                 //Once we have an ISBN, start a book intent
-                /*Intent bookIntent = new Intent(getActivity(), BookService.class);
-                bookIntent.putExtra(BookService.EAN, mEanEdit);
-                bookIntent.setAction(BookService.FETCH_BOOK);
-                getActivity().startService(bookIntent);*/
                 addBook(ean);
 
             }
@@ -244,19 +250,12 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         mAuthorsView.setLines(authorsArr.length);
         mAuthorsView.setText(authors.replace(",", "\n"));
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        /*if(Patterns.WEB_URL.matcher(imgUrl).matches()){
-            new DownloadImage(mBookCoverView).execute(imgUrl);
-
-        }*/
 
         Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         mCategoriesView.setText(categories);
 
-        /*mBookCoverView.setVisibility(View.VISIBLE);
-        mSaveButton.setVisibility(View.VISIBLE);
-        mDeleteButton.setVisibility(View.VISIBLE);*/
         mBookDetailView.setVisibility(View.VISIBLE);
     }
 
@@ -266,13 +265,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     }
 
     private void clearFields(){
-        /*mBookTitleView.setText("");
-        mBookSubTitleView.setText("");
-        mAuthorsView.setText("");
-        mCategoriesView.setText("");
-        mBookCoverView.setVisibility(View.INVISIBLE);
-        mSaveButton.setVisibility(View.INVISIBLE);
-        mDeleteButton.setVisibility(View.INVISIBLE);*/
         mBookDetailView.setVisibility(View.INVISIBLE);
         mBookEAN=null;
     }
@@ -281,6 +273,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
+        mHost = (Host)activity;
     }
 
     public void onInvalidScanFormat()
