@@ -21,7 +21,7 @@
             android:layout_marginLeft="@dimen/cardview_margin"
             android:layout_marginRight="@dimen/cardview_margin"
             app:cardUseCompatPadding="true"
-            app:contentPadding="16dp"
+            app:contentPadding="@dimen/cardview_content_padding"
             app:cardElevation="4dp">
 
             <RelativeLayout

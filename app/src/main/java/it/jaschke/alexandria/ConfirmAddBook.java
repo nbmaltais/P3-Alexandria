@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 
 
-public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ConfirmAddBook extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOGTAG = AddBook.class.getSimpleName();
 
     public static final String ARG_EAN = "ARG_EAN";
@@ -108,7 +108,6 @@ public class ConfirmAddBook extends Fragment implements LoaderManager.LoaderCall
     {
         // Inform host activity that the book was saved
         mHost.onSaveBook(mBookTitle,mBookEAN);
-
     }
 
     void deleteBook()

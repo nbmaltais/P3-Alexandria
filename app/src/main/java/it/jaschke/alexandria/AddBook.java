@@ -41,6 +41,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
     private String mBookEAN;
+    private String mBookString;
     private View mBookDetailView;
     private View mScanButton;
     private View mSaveButton;
@@ -178,6 +179,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             public void onClick(View view)
             {
                 mEanEdit.setText("");
+                Toast.makeText(getActivity(), getActivity().getString(R.string.book_added_toast, mBookString), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -231,8 +233,8 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             return;
         }
 
-        String bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        mBookTitleView.setText(bookTitle);
+        mBookString = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
+        mBookTitleView.setText(mBookString);
 
         String bookSubTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
         mBookSubTitleView.setText(bookSubTitle);

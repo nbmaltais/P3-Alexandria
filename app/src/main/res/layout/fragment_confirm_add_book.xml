@@ -61,19 +61,24 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dip"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/delete_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_action_discard"
+                android:layout_weight="0"
+
                 android:text="@string/cancel_button"
 
                 />
@@ -82,10 +87,8 @@
                 android:id="@+id/save_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_action_accept"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:text="@string/ok_button"
 
                 />

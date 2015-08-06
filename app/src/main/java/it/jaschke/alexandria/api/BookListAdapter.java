@@ -3,6 +3,7 @@ package it.jaschke.alexandria.api;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,10 @@ public class BookListAdapter extends CursorAdapter {
 
         String bookSubTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
         viewHolder.bookSubTitle.setText(bookSubTitle);
+
+        String isbn = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry._ID));
+        ViewCompat.setTransitionName(viewHolder.bookCover,isbn);
+
     }
 
     @Override

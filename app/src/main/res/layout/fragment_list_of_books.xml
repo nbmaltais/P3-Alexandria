@@ -52,7 +52,8 @@
             android:layout_alignRight="@id/searchButton"
             android:layout_below="@+id/searchText"
             android:layout_marginLeft="0dp"
-            android:layout_toRightOf="@id/searchButton"/>
+            android:layout_toRightOf="@id/searchButton"
+            android:divider="@null"/>
 
 
     </RelativeLayout>
@@ -62,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/activity_margin"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_white_24dp"
         app:borderWidth="0dp"
         />
