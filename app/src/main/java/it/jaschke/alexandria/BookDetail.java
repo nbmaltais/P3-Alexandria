@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 
@@ -163,7 +161,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
             rootView.findViewById(R.id.fullBookCover).setVisibility(View.VISIBLE);
         }*/
 
-        Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
+        Utility.loadBookCoverIntoImageView(getActivity(),imgUrl,mBookCoverView);
 
         String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
         ((TextView) rootView.findViewById(R.id.categories)).setText(categories);

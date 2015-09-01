@@ -3,6 +3,9 @@ package it.jaschke.alexandria;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Nicolas on 2015-07-09.
@@ -22,5 +25,15 @@ public class Utility
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
+
+    static public void loadBookCoverIntoImageView(Context context, String imgUrl, ImageView view)
+    {
+        if(imgUrl!=null && !imgUrl.isEmpty())
+            Picasso.with(context).load(imgUrl).into(view);
+        else
+        {
+            // TODO: load default image
+        }
     }
 }

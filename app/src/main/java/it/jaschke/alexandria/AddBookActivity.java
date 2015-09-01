@@ -52,8 +52,13 @@ public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
+        if(resultCode != RESULT_OK)
+            return;
+
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
+
+
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.add_book_fragment);
             if(f==null)
                 return; // The fragment is not here???
