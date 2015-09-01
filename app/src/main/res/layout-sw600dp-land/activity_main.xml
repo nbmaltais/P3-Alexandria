@@ -14,7 +14,7 @@
 
         <fragment
             android:id="@+id/container"
-            android:name="it.jaschke.alexandria.ListOfBooks"
+            android:name="it.jaschke.alexandria.ListOfBooksFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

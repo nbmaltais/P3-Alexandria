@@ -7,7 +7,7 @@
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
     app:contentPadding="@dimen/cardview_content_padding"
-    tools:context="it.jaschke.alexandria.ConfirmAddBook">
+    tools:context="it.jaschke.alexandria.ConfirmAddBookFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

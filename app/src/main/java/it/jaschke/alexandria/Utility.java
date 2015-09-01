@@ -33,7 +33,8 @@ public class Utility
             Picasso.with(context).load(imgUrl).into(view);
         else
         {
-            // TODO: load default image
+
+            //Picasso.with(context).load(R.drawable.book).into(view);
         }
     }
 }

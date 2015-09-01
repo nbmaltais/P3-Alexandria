@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context="it.jaschke.alexandria.AddBook">
+    tools:context="it.jaschke.alexandria.AddBookFragment">
 
     <ScrollView
         android:layout_width="fill_parent"

@@ -13,7 +13,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
-public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook.Host, AddBook.Host
+public class AddBookActivity extends AppCompatActivity implements ConfirmAddBookFragment.Host, AddBookFragment.Host
 {
     static final String TAG = AddBookActivity.class.getSimpleName();
     static final String FAGMENTTAG="ConfirmAddBook";
@@ -62,7 +62,7 @@ public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.add_book_fragment);
             if(f==null)
                 return; // The fragment is not here???
-            AddBook ad = (AddBook)f;
+            AddBookFragment ad = (AddBookFragment)f;
             Log.d(TAG, "Received scan result: " + scanResult.toString());
             if( scanResult.getFormatName().equals("EAN_13") )
             {
@@ -101,7 +101,7 @@ public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook
     @Override
     public void confirmAddBook(String ean)
     {
-        ConfirmAddBook confirmAddBook = ConfirmAddBook.newInstance(ean);
+        ConfirmAddBookFragment confirmAddBook = ConfirmAddBookFragment.newInstance(ean);
         confirmAddBook.show(getSupportFragmentManager(),FAGMENTTAG);
     }
 }

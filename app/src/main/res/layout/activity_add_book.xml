@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/add_book_fragment"
-        android:name="it.jaschke.alexandria.AddBook"
+        android:name="it.jaschke.alexandria.AddBookFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_add_book"/>

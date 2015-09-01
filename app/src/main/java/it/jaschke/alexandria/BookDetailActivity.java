@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class BookDetailActivity extends AppCompatActivity implements BookDetail.Host
+public class BookDetailActivity extends AppCompatActivity implements BookDetailFragment.Host
 {
 
     public static final String EXTRA_EAN = "EXTRA_EAN";
@@ -25,10 +25,10 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetail.
             {
                 String ean = intent.getStringExtra(EXTRA_EAN);
                 Bundle args = new Bundle();
-                args.putString(BookDetail.EAN_KEY, ean);
-                args.putBoolean(BookDetail.ARG_SET_TITLE, true);
+                args.putString(BookDetailFragment.EAN_KEY, ean);
+                args.putBoolean(BookDetailFragment.ARG_SET_TITLE, true);
 
-                BookDetail fragment = new BookDetail();
+                BookDetailFragment fragment = new BookDetailFragment();
                 fragment.setArguments(args);
 
                 getSupportFragmentManager().beginTransaction()

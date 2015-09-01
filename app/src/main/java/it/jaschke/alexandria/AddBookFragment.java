@@ -26,8 +26,8 @@ import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 
 
-public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String LOGTAG = AddBook.class.getSimpleName();
+public class AddBookFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String LOGTAG = AddBookFragment.class.getSimpleName();
     private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
     private EditText mEanEdit;
     private final int LOADER_ID = 1;
@@ -88,7 +88,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         //mHost.confirmAddBook(mBookEAN);
     }
 
-    public AddBook(){
+    public AddBookFragment(){
     }
 
     @Override

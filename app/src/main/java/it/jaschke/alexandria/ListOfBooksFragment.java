@@ -20,7 +20,7 @@ import it.jaschke.alexandria.api.Callback;
 import it.jaschke.alexandria.data.AlexandriaContract;
 
 
-public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ListOfBooksFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private BookListAdapter bookListAdapter;
     private ListView bookList;
@@ -29,7 +29,7 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
 
     private final int LOADER_ID = 10;
 
-    public ListOfBooks() {
+    public ListOfBooksFragment() {
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ListOfBooks.this.restartLoader();
+                        ListOfBooksFragment.this.restartLoader();
                     }
                 }
         );

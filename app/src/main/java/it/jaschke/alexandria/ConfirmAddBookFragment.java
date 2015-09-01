@@ -19,8 +19,8 @@ import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 
 
-public class ConfirmAddBook extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String LOGTAG = AddBook.class.getSimpleName();
+public class ConfirmAddBookFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String LOGTAG = AddBookFragment.class.getSimpleName();
 
     public static final String ARG_EAN = "ARG_EAN";
 
@@ -46,9 +46,9 @@ public class ConfirmAddBook extends DialogFragment implements LoaderManager.Load
 
     private Host mHost;
 
-    public static ConfirmAddBook newInstance( String bookEAN )
+    public static ConfirmAddBookFragment newInstance( String bookEAN )
     {
-        ConfirmAddBook f = new ConfirmAddBook();
+        ConfirmAddBookFragment f = new ConfirmAddBookFragment();
         Bundle args = new Bundle();
         args.putString(ARG_EAN, bookEAN);
         f.setArguments(args);
@@ -56,7 +56,7 @@ public class ConfirmAddBook extends DialogFragment implements LoaderManager.Load
         return f;
     }
 
-    public ConfirmAddBook(){
+    public ConfirmAddBookFragment(){
     }
 
     @Override

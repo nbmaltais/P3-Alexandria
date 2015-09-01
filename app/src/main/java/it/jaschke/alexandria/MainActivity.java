@@ -17,7 +17,7 @@ import it.jaschke.alexandria.api.Callback;
 
 
 public class MainActivity extends AppCompatActivity
-        implements  Callback , BookDetail.Host
+        implements  Callback , BookDetailFragment.Host
 {
     static final String TAG=MainActivity.class.getSimpleName();
 
@@ -116,9 +116,9 @@ public class MainActivity extends AppCompatActivity
         if(mTwoPane)
         {
             Bundle args = new Bundle();
-            args.putString(BookDetail.EAN_KEY, ean);
+            args.putString(BookDetailFragment.EAN_KEY, ean);
 
-            BookDetail fragment = new BookDetail();
+            BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(args);
 
             int id = R.id.container;

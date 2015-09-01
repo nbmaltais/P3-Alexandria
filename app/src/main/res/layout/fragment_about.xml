@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="it.jaschke.alexandria.About"
+    tools:context="it.jaschke.alexandria.AboutFragment"
     android:paddingLeft="@dimen/activity_margin"
     android:paddingRight="@dimen/activity_margin">
 
