@@ -1,17 +1,12 @@
 package it.jaschke.alexandria;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
 
@@ -25,10 +20,10 @@ public class MainActivity extends AppCompatActivity
 
     private boolean mTwoPane=false;
 
-    private BroadcastReceiver messageReceiver;
 
-    public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
-    public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+
+
+
     private boolean mStartAddBookActivity=false;
 
     @Override
@@ -43,9 +38,9 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        messageReceiver = new MessageReceiver();
+        /*messageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver,filter);*/
 
         if(savedInstanceState==null)
         {
@@ -105,7 +100,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
+        //LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         super.onDestroy();
     }
 
@@ -157,14 +152,7 @@ public class MainActivity extends AppCompatActivity
         // DO nothing
     }
 
-    private class MessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!=null){
-                Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+
 
 
 

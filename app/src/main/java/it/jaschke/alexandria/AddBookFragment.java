@@ -1,13 +1,16 @@
 package it.jaschke.alexandria;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -52,9 +55,33 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
     private ImageView mBookCoverView;
     private Host mHost;
 
+    private BroadcastReceiver messageReceiver;
+
     public interface Host
     {
         void confirmAddBook(String ean);
+    }
+
+    private class MessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int code = intent.getIntExtra(BookService.MESSAGE_EXTRA_CODE,-1);
+            if(code==BookService.MESSAGE_CODE_NOTFOUND)
+            {
+                String text = getActivity().getString(R.string.not_found);
+                Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+            }
+            else if(code==BookService.MESSAGE_CODE_ALREADYADDED)
+            {
+                String text = getActivity().getString(R.string.book_already_added);
+                Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+            }
+            else if(code==BookService.MESSAGE_CODE_ADDED)
+            {
+                restartLoader();
+            }
+
+        }
     }
 
     boolean checkNetworkAndShowMessage()
@@ -83,7 +110,7 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         bookIntent.setAction(BookService.FETCH_BOOK);
         context.startService(bookIntent);
 
-        restartLoader();
+        //restartLoader();
 
         //mHost.confirmAddBook(mBookEAN);
     }
@@ -99,6 +126,41 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+    }
+
+
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(R.string.scan);
+        mHost = (Host)activity;
+
+
+        messageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter(BookService.MESSAGE_EVENT);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(messageReceiver, filter);
+    }
+
+    @Override
+    public void onDetach()
+    {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(messageReceiver);
+        super.onDetach();
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -269,12 +331,7 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         mBookEAN=null;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        activity.setTitle(R.string.scan);
-        mHost = (Host)activity;
-    }
+
 
     public void onInvalidScanFormat()
     {

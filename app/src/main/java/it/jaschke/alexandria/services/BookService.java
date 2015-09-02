@@ -19,8 +19,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import it.jaschke.alexandria.MainActivity;
-import it.jaschke.alexandria.R;
 import it.jaschke.alexandria.data.AlexandriaContract;
 
 
@@ -37,6 +35,13 @@ public class BookService extends IntentService {
     public static final String DELETE_BOOK = "it.jaschke.alexandria.services.action.DELETE_BOOK";
 
     public static final String EAN = "it.jaschke.alexandria.services.extra.EAN";
+
+
+    public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
+    public static final String MESSAGE_EXTRA_CODE = "MESSAGE_EXTRA";
+    public static final int MESSAGE_CODE_NOTFOUND = 0;
+    public static final int MESSAGE_CODE_ALREADYADDED = 1;
+    public static final int MESSAGE_CODE_ADDED = 2;
 
     public BookService() {
         super("Alexandria");
@@ -86,9 +91,12 @@ public class BookService extends IntentService {
 
         // Book already exists.
         if(bookEntry.getCount()>0){
+            Log.d(LOG_TAG,"Book already exists.");
             bookEntry.close();
+            sendBookAlreadyExistsBroadcast();
             return;
         }
+
 
         bookEntry.close();
 
@@ -163,9 +171,7 @@ public class BookService extends IntentService {
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                sendBookNotFoundBroadcast();
                 return;
             }
 
@@ -197,9 +203,33 @@ public class BookService extends IntentService {
                 writeBackCategories(ean,bookInfo.getJSONArray(CATEGORIES) );
             }
 
+            sendBookAddedBroadcast();
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
         }
+    }
+
+    private void sendBookAddedBroadcast()
+    {
+        Intent messageIntent = new Intent(MESSAGE_EVENT);
+        messageIntent.putExtra(MESSAGE_EXTRA_CODE,MESSAGE_CODE_ADDED);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+    }
+
+    private void sendBookAlreadyExistsBroadcast()
+    {
+        Intent messageIntent = new Intent(MESSAGE_EVENT);
+        messageIntent.putExtra(MESSAGE_EXTRA_CODE,MESSAGE_CODE_ALREADYADDED);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+    }
+
+    private void sendBookNotFoundBroadcast()
+    {
+        Intent messageIntent = new Intent(MESSAGE_EVENT);
+        //messageIntent.putExtra(MainActivity.MESSAGE_EXTRA_CODE,getResources().getString(R.string.not_found));
+        messageIntent.putExtra(MESSAGE_EXTRA_CODE, MESSAGE_CODE_NOTFOUND);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
 
     private void writeBackBook(String ean, String title, String subtitle, String desc, String imgUrl) {
