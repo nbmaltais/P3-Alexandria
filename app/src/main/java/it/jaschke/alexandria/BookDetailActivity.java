@@ -27,6 +27,7 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailF
                 Bundle args = new Bundle();
                 args.putString(BookDetailFragment.EAN_KEY, ean);
                 args.putBoolean(BookDetailFragment.ARG_SET_TITLE, true);
+                args.putBoolean(BookDetailFragment.ARG_POSTPONED_TRANSITION, true);
 
                 BookDetailFragment fragment = new BookDetailFragment();
                 fragment.setArguments(args);
@@ -36,6 +37,8 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailF
                         .commit();
 
             }
+
+            supportPostponeEnterTransition();
         }
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);

@@ -74,8 +74,9 @@ public class ListOfBooksFragment extends Fragment implements LoaderManager.Loade
                 Cursor cursor = bookListAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position))
                 {
+                    View v = view.findViewById(R.id.fullBookCover);
                     ((Callback) getActivity())
-                            .onItemSelected(cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry._ID)));
+                            .onItemSelected(cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry._ID)), v);
                 }
             }
         });

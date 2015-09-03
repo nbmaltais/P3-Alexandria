@@ -45,4 +45,5 @@
     <string name="book_added_toast">%1$s was added to your library.</string>
     <string name="search_hint">Search books</string>
     <string name="book_already_added">This book is already in your collection.</string>
+    <string name="bookCoverTransition">bookcover</string>
 </resources>

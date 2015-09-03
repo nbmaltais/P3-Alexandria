@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -26,6 +27,7 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
 
     public static final String EAN_KEY = "EAN";
     public static final String ARG_SET_TITLE = "ARG_SET_TITLE";
+    public static final String ARG_POSTPONED_TRANSITION = "ARG_POSTPONED_TRANSITION";
     private final int LOADER_ID = 10;
     private View rootView;
     private String ean;
@@ -33,6 +35,7 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
     private ShareActionProvider shareActionProvider;
     private ImageView mBookCoverView;
     private boolean mSetTitle=false;
+    private boolean mPostponedTransition=false;
 
     public interface Host
     {
@@ -67,6 +70,7 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
         Bundle arguments = getArguments();
         if (arguments != null) {
             ean = arguments.getString(BookDetailFragment.EAN_KEY);
+            mPostponedTransition = arguments.getBoolean(ARG_POSTPONED_TRANSITION,false);
             getLoaderManager().restartLoader(LOADER_ID, null, this);
 
             mSetTitle = arguments.getBoolean(ARG_SET_TITLE,false);
@@ -169,8 +173,19 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
         if(mHost!=null)
             mHost.setBookTitle(bookTitle);
 
+        startPostponedContentTransition();
+
     }
 
+    private void startPostponedContentTransition()
+    {
+        if(mPostponedTransition)
+        {
+            // Image is done loading, resume animations
+            ActivityCompat.startPostponedEnterTransition(getActivity());
+            mPostponedTransition = false;
+        }
+    }
     private void updateShareIntent()
     {
         if(shareActionProvider!=null && bookTitle!=null)

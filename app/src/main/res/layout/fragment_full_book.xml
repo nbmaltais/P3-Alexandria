@@ -52,6 +52,7 @@
                     android:layout_below="@+id/fullBookTitle"
                     android:layout_marginTop="15dp"
                     android:contentDescription="@string/book_cover"
+                    android:transitionName="@string/bookCoverTransition"
                     tools:src="@drawable/book_cover"/>
 
                 <TextView

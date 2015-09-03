@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import it.jaschke.alexandria.api.Callback;
 
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemSelected(String ean) {
+    public void onItemSelected(String ean, View transitionView) {
 
 
         if(mTwoPane)
@@ -127,9 +130,17 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
+
+            ActivityOptionsCompat sceneTransitionAnimation = ActivityOptionsCompat.makeSceneTransitionAnimation(this, transitionView,
+                    getString(R.string.bookCoverTransition));
+
+            // Starts the activity with the participants, animating from one to the other.
+            final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
+
             Intent intent = new Intent(this,BookDetailActivity.class);
             intent.putExtra(BookDetailActivity.EXTRA_EAN,ean);
-            startActivity(intent);
+            //startActivity(intent, transitionBundle);
+            ActivityCompat.startActivity(this,intent,transitionBundle);
         }
 
     }
