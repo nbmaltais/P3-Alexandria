@@ -53,14 +53,8 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
     private TextView mAuthorsView;
     private TextView mCategoriesView;
     private ImageView mBookCoverView;
-    private Host mHost;
 
     private BroadcastReceiver messageReceiver;
-
-    public interface Host
-    {
-        void confirmAddBook(String ean);
-    }
 
     private class MessageReceiver extends BroadcastReceiver {
         @Override
@@ -110,9 +104,6 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         bookIntent.setAction(BookService.FETCH_BOOK);
         context.startService(bookIntent);
 
-        //restartLoader();
-
-        //mHost.confirmAddBook(mBookEAN);
     }
 
     public AddBookFragment(){
@@ -147,7 +138,6 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
-        mHost = (Host)activity;
 
 
         messageReceiver = new MessageReceiver();

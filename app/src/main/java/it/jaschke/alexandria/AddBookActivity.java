@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
-public class AddBookActivity extends AppCompatActivity implements ConfirmAddBookFragment.Host, AddBookFragment.Host
+public class AddBookActivity extends AppCompatActivity
 {
     static final String TAG = AddBookActivity.class.getSimpleName();
     static final String FAGMENTTAG="ConfirmAddBook";
@@ -81,28 +80,17 @@ public class AddBookActivity extends AppCompatActivity implements ConfirmAddBook
         }
     }
 
-    @Override
+    /*@Override
     public void onSaveBook(String title, String ean)
     {
         Toast.makeText(this, getString(R.string.book_added_toast, title), Toast.LENGTH_LONG).show();
-        dismissConfrimAddBookDialog();
-    }
 
-    private void dismissConfrimAddBookDialog()
-    {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(FAGMENTTAG);
     }
 
     @Override
     public void onDeleteBook(String ean)
     {
 
-    }
+    }*/
 
-    @Override
-    public void confirmAddBook(String ean)
-    {
-        ConfirmAddBookFragment confirmAddBook = ConfirmAddBookFragment.newInstance(ean);
-        confirmAddBook.show(getSupportFragmentManager(),FAGMENTTAG);
-    }
 }
