@@ -5,11 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -25,16 +22,15 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
-import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.Book;
 import it.jaschke.alexandria.services.BookService;
 
 
-public class AddBookFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AddBookFragment extends Fragment {
     private static final String LOGTAG = AddBookFragment.class.getSimpleName();
     private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
     private EditText mEanEdit;
-    private final int LOADER_ID = 1;
+    //private final int LOADER_ID = 1;
     private View mRootView;
     private final String EAN_CONTENT="eanContent";
     private static final String SCAN_FORMAT = "scanFormat";
@@ -66,11 +62,13 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
             {
                 String text = getActivity().getString(R.string.not_found);
                 Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+                mBookEAN="";
             }
             else if(code==BookService.MESSAGE_CODE_ALREADYADDED)
             {
                 String text = getActivity().getString(R.string.book_already_added);
                 Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+                mBookEAN="";
             }
             else if(code==BookService.MESSAGE_CODE_FETCHED)
             {
@@ -301,59 +299,9 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         return mRootView;
     }
 
-    private void restartLoader(){
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
-    }
 
-    @Override
-    public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if(mBookEAN.length()==0){
-            return null;
-        }
 
-        return new CursorLoader(
-                getActivity(),
-                AlexandriaContract.BookEntry.buildFullBookUri(Long.parseLong(mBookEAN)),
-                null,
-                null,
-                null,
-                null
-        );
-    }
 
-    @Override
-    public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
-        if (!data.moveToFirst()) {
-            return;
-        }
-
-        mBookString = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        mBookTitleView.setText(mBookString);
-
-        String bookSubTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
-        mBookSubTitleView.setText(bookSubTitle);
-
-        String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
-        if(authors==null)
-            authors="";
-        String[] authorsArr = authors.split(",");
-        mAuthorsView.setLines(authorsArr.length);
-        mAuthorsView.setText(authors.replace(",", "\n"));
-        String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-
-        //Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
-        Utility.loadBookCoverIntoImageView(getActivity(),imgUrl,mBookCoverView);
-
-        String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
-        mCategoriesView.setText(categories);
-
-        mBookDetailView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
-
-    }
 
     private void clearFields(){
         mBookDetailView.setVisibility(View.INVISIBLE);
