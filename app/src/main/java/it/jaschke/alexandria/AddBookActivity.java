@@ -67,7 +67,7 @@ public class AddBookActivity extends AppCompatActivity
             if( scanResult.getFormatName().equals("EAN_13") )
             {
                 String ean = scanResult.getContents();
-                ad.addBook(ean);
+                ad.searchBook(ean);
             }
             else
             {

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 import it.jaschke.alexandria.data.AlexandriaContract;
+import it.jaschke.alexandria.services.Book;
 import it.jaschke.alexandria.services.BookService;
 
 
@@ -55,6 +56,7 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
     private ImageView mBookCoverView;
 
     private BroadcastReceiver messageReceiver;
+    private Book mBook;
 
     private class MessageReceiver extends BroadcastReceiver {
         @Override
@@ -70,12 +72,44 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
                 String text = getActivity().getString(R.string.book_already_added);
                 Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
             }
-            else if(code==BookService.MESSAGE_CODE_ADDED)
+            else if(code==BookService.MESSAGE_CODE_FETCHED)
             {
-                restartLoader();
+                mBook = intent.getParcelableExtra(BookService.MESSAGE_EXTRA_BOOK);
+                showBook(mBook);
+                //restartLoader();
             }
 
         }
+    }
+
+    private void showBook(Book book)
+    {
+
+        mBookTitleView.setText(book.title);
+
+        String bookSubTitle = book.subtitle;
+        mBookSubTitleView.setText(bookSubTitle);
+
+        String authors="";
+        if(!book.authors.isEmpty())
+            authors = book.authors.get(0);
+
+        String[] authorsArr = authors.split(",");
+        mAuthorsView.setLines(authorsArr.length);
+        mAuthorsView.setText(authors.replace(",", "\n"));
+
+        String imgUrl = book.imgUrl;
+
+        //Picasso.with(getActivity()).load(imgUrl).into(mBookCoverView);
+        Utility.loadBookCoverIntoImageView(getActivity(),imgUrl,mBookCoverView);
+
+        String categories = "";
+        if(!book.categories.isEmpty())
+            categories = book.categories.get(0);
+
+         mCategoriesView.setText(categories);
+
+        mBookDetailView.setVisibility(View.VISIBLE);
     }
 
     boolean checkNetworkAndShowMessage()
@@ -90,7 +124,7 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         return true;
     }
 
-    public void addBook( String ean )
+    public void searchBook(String ean)
     {
         if(!checkNetworkAndShowMessage())
             return;
@@ -103,7 +137,6 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         bookIntent.putExtra(BookService.EAN, ean);
         bookIntent.setAction(BookService.FETCH_BOOK);
         context.startService(bookIntent);
-
     }
 
     public AddBookFragment(){
@@ -197,11 +230,11 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
                 }
                 if (ean.length() < 13)
                 {
-                    clearFields();
+                    //clearFields();
                     return;
                 }
                 //Once we have an ISBN, start a book intent
-                addBook(ean);
+                searchBook(ean);
 
             }
         });
@@ -235,8 +268,10 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
             @Override
             public void onClick(View view)
             {
+                BookService.addBook(getActivity(), mBook);
+                Toast.makeText(getActivity(), getActivity().getString(R.string.book_added_toast, mBook.title), Toast.LENGTH_LONG).show();
+                clearFields();
                 mEanEdit.setText("");
-                Toast.makeText(getActivity(), getActivity().getString(R.string.book_added_toast, mBookString), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -246,11 +281,13 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
             @Override
             public void onClick(View view)
             {
-                Intent bookIntent = new Intent(getActivity(), BookService.class);
+                /*Intent bookIntent = new Intent(getActivity(), BookService.class);
                 bookIntent.putExtra(BookService.EAN, mEanEdit.getText().toString());
                 bookIntent.setAction(BookService.DELETE_BOOK);
                 getActivity().startService(bookIntent);
+                mEanEdit.setText("");*/
                 mEanEdit.setText("");
+                clearFields();
             }
         });
 
@@ -297,6 +334,8 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
         mBookSubTitleView.setText(bookSubTitle);
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
+        if(authors==null)
+            authors="";
         String[] authorsArr = authors.split(",");
         mAuthorsView.setLines(authorsArr.length);
         mAuthorsView.setText(authors.replace(",", "\n"));
@@ -319,6 +358,7 @@ public class AddBookFragment extends Fragment implements LoaderManager.LoaderCal
     private void clearFields(){
         mBookDetailView.setVisibility(View.INVISIBLE);
         mBookEAN=null;
+        mBook=null;
     }
 
 

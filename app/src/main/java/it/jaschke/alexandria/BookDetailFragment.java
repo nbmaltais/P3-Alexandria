@@ -154,10 +154,16 @@ public class BookDetailFragment extends Fragment implements LoaderManager.Loader
         String desc = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.DESC));
         ((TextView) rootView.findViewById(R.id.fullBookDesc)).setText(desc);
 
+        TextView authorView = (TextView)rootView.findViewById(R.id.authors);
+
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
+        if(authors==null)
+            authors="";
+
         String[] authorsArr = authors.split(",");
-        ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
-        ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",", "\n"));
+        authorView.setLines(authorsArr.length);
+        authorView.setText(authors.replace(",", "\n"));
+
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
 
         /*if(Patterns.WEB_URL.matcher(imgUrl).matches()){
